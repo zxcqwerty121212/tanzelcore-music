@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TANZELCORE | АЛЬБОМЫ</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050805;
+            color: #ff0000;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('image_3a6d36.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(1) contrast(1.5) brightness(0.2);
+            z-index: -2;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 20%, rgba(20, 0, 0, 0.4) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            letter-spacing: 15px;
+            margin-bottom: 80px;
+            text-shadow: 0 0 20px #ff0000;
+            animation: glitch 2.5s infinite;
+            text-transform: uppercase;
+        }
+
+        .album-list {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .album-card {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #300;
+            padding: 40px;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .album-card:hover {
+            border-color: #ff0000;
+            transform: scale(1.01);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.15);
+        }
+
+        .album-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .player-container {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #400;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .album-art {
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 20px;
+            background-image: url('image_3a7b4b.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 3px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+        }
+
+        audio {
+            width: 100%;
+            filter: invert(1) hue-rotate(180deg) brightness(1.5);
+            margin-top: 15px;
+            outline: none;
+        }
+
+        .play-btn {
+            display: inline-block;
+            border: 1px solid #ff0000;
+            background: transparent;
+            color: #ff0000;
+            padding: 12px 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+
+        .play-btn:hover {
+            background: #ff0000;
+            color: #000;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            1% { transform: translate(-3px, 1px); }
+            2% { transform: translate(3px, -1px); }
+            3% { transform: translate(0); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            margin-top: 100px;
+            font-size: 0.7rem;
+            opacity: 0.3;
+            letter-spacing: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background"></div>
+    <div class="overlay"></div>
+
+    <div class="wrapper">
+        <header>
+            <h1>ВЫБЕРИТЕ АЛЬБОМ</h1>
+        </header>
+
+        <div class="album-list">
+            <!-- Альбом 1 -->
+            <div class="album-card" onclick="togglePlayer('player1')">
+                <span class="album-title">pilz essen kleine kinder</span>
+                <div id="btn-text-1" class="play-btn">ОТКРЫТЬ</div>
+                
+                <div id="player1" class="player-container" onclick="event.stopPropagation()">
+                    <div class="album-art"></div>
+                    <p style="font-size: 0.9rem; margin-bottom: 10px; color: #aaa;">ТРЕК: KONIGER AVV PILZ</p>
+                    <audio id="audio1" controls>
+                        <source src="konigeravvpilz.mp3" type="audio/mpeg">
+                        Браузер не поддерживает аудио.
+                    </audio>
+                </div>
+            </div>
+
+            <!-- Альбом 2 -->
+            <div class="album-card">
+                <span class="album-title">die Leiche von drei Pilzen</span>
+                <div class="play-btn" style="opacity: 0.5; cursor: not-allowed;">СКОРО</div>
+            </div>
+
+            <!-- Альбом 3 -->
+            <div class="album-card">
+                <span class="album-title">Fliegenpilze töten Juden</span>
+                <div class="play-btn" style="opacity: 0.5; cursor: not-allowed;">СКОРО</div>
+            </div>
+        </div>
+
+        <footer>
+            TANZELCORE PROJECT // NO RIGHTS RESERVED
+        </footer>
+    </div>
+
+    <script>
+        function togglePlayer(id) {
+            const player = document.getElementById(id);
+            const btnText = document.getElementById('btn-text-1');
+            const isVisible = player.style.display === 'block';
+            
+            if (!isVisible) {
+                player.style.display = 'block';
+                btnText.innerText = 'ЗАКРЫТЬ';
+            } else {
+                player.style.display = 'none';
+                btnText.innerText = 'ОТКРЫТЬ';
+                // Остановить музыку при закрытии
+                document.getElementById('audio1').pause();
+            }
+        }
+    </script>
+
+</body>
+</html>
